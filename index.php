@@ -5,8 +5,8 @@ use lu\pata\jain\Key;
 
 require_once 'vendor/autoload.php';
 
-spl_autoload_register(function ($class_name) {
-    include $class_name . '.php';
+spl_autoload_register(function ($class_name) {	
+    include str_replace('\\', '/', $class_name) . '.php';
 });
 
 
