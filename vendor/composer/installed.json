@@ -1,0 +1,54 @@
+[
+    {
+        "name": "sop/asn1",
+        "version": "4.1.0",
+        "version_normalized": "4.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sop/asn1.git",
+            "reference": "660fd4e1e9adeb013f995a1d69ed2fe3569af2b2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sop/asn1/zipball/660fd4e1e9adeb013f995a1d69ed2fe3569af2b2",
+            "reference": "660fd4e1e9adeb013f995a1d69ed2fe3569af2b2",
+            "shasum": ""
+        },
+        "require": {
+            "ext-gmp": "*",
+            "ext-mbstring": "*",
+            "php": ">=7.2"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^8.1"
+        },
+        "time": "2019-06-26T06:52:06+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Sop\\ASN1\\": "lib/ASN1/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Joni Eskelinen",
+                "email": "jonieske@gmail.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "A PHP library for X.690 ASN.1 DER encoding and decoding.",
+        "homepage": "https://github.com/sop/asn1",
+        "keywords": [
+            "DER",
+            "asn.1",
+            "asn1",
+            "x.690",
+            "x690"
+        ]
+    }
+]
