@@ -1,9 +1,9 @@
 * load : Load an external key
-load [name] [algorithm] [type] [data]
+load [name] [algorithm] [data] [type]
 - name : unique key name to identify the key
 - algorithm : rsa,aes
-- type : pub,priv,secret
 - data : HEX ASCII representation of the key
+- type : pub,priv,secret
 
 * list : List all saved keys
 
@@ -17,3 +17,29 @@ gen [name] [algorithm] [size]
 get [name]
 - name : key name
 
+* delete : Delete a key
+delete [name]
+- name : key name; if the name is "all", all keys are deleted
+
+* enc : Encrypt data
+enc [name] [data] [option] [iv]
+- name : key name
+- data : data to encrypt in HEX ASCII
+- option : cbc,ecb
+- iv : initialization vector in HEX ASCII
+
+* dec : Decrypt data
+enc [name] [data] [option] [iv] [pad]
+- name : key name
+- data : data to encrypt in HEX ASCII
+- option : cbc,ecb
+- iv : initialization vector in HEX ASCII
+- pad : pad,nopad
+
+* b2h : Base64 to HEX ASCII
+b2h [data]
+- data : Base64 input data
+
+* h2b : HEX ASCII to Bas64
+b2h [data]
+- data : HEX ASCII input data

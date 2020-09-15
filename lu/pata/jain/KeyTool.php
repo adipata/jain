@@ -105,7 +105,7 @@ class KeyTool
         $iv=hex2bin($iv);
         $method="aes-".$size."-".$opt;
         $ivlen = openssl_cipher_iv_length($method);
-        if($opt==="cbc" && strlen($iv)!=$ivlen) throw new Exception("Incorrect IV. Needs to have a length of $ivlen bytes.");
+        if(strlen($iv)!=$ivlen) throw new Exception("Incorrect IV. Needs to have a length of $ivlen bytes.");
 
         $options=OPENSSL_RAW_DATA;
         if($pad==="nopad") $options=$options|OPENSSL_ZERO_PADDING;
@@ -216,6 +216,8 @@ class KeyTool
         switch($type){
             case "pub":
                 return $this->loadRSAPublic($kdata);
+            case "priv":
+                return $this->loadRSAPrivate($kdata);
             default:
                 throw new Exception("Unknown key type '$type'. It can be 'pub' or 'priv'.");
         }
