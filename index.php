@@ -1,18 +1,57 @@
 <?php
 declare(strict_types = 1);
 
-use lu\pata\jain\Key;
-
 require_once 'vendor/autoload.php';
 
-spl_autoload_register(function ($class_name) {	
+spl_autoload_register(function ($class_name) {
     include str_replace('\\', '/', $class_name) . '.php';
 });
+?>
 
+<html>
+ <head>
+     <title>Crypto</title>
+     <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
+     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+     <script src="https://unpkg.com/jquery.terminal/js/jquery.terminal.min.js"></script>
+     <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
 
-$key=new Key();
-try {
-    $key->create("308201A1300D06092A864886F70D01010105000382018E003082018902820180C13D335C30167975273189D2726456684B0958C5F2562A6F69FB1C5F5FA71CCF22434F0B5259D1B675539D2820FA414159F5183D9E6A975B40814EA800120156534429EB4D91D6BE6A1F5CBC154A624DB7AD58512B4DA4CC16A1880EF6C2B3287ADDEB6CEA78F68D66178C6257858B168957A2ED377F68B32E55352B4C3E9EC090E3F750E4C081392BA6C600F5C4097EC7D1D7867A3E949FD7294D6C38F7CE156A0683B4C783065CED207D77087608CA36DD3A75B6E214920ECDDEE696C9EC276D7274F2D824E31F1BCF4BD9D55C9D0546B8FD06AD18D518FDFFE9253B211BA4137F024659920C6BCBB11E9660A82B50365D3FC804B62DF1E40F9183E31A1B84237279A15C6C2DC48623797FF3147861FB51CB5AF774E798B5D408D0E0D380CC95D1DFD3040789A8761667AE0B6C573B40F4D8E70857E575872364EB3D11405388AAF86F2F3488DEC5D78C345ADBCF94D13A7AC1406B60B97AFB8324A3242E2B2F624364D752175502E358086650E402568E9E7899F9AC6B7008EAAF249012D10203010001");
-} catch (Exception $e) {
-    echo "Error: ".$e->getMessage();
-}
+     <link rel="stylesheet" href="https://unpkg.com/jquery.terminal/css/jquery.terminal.min.css"/>
+     <style>
+         body{
+             background-color: black;
+             color: chartreuse;
+             font-family: 'Source Code Pro', monospace;
+         }
+     </style>
+     <script>
+         $( document ).ready(function() {
+             $('body').terminal([{
+                 test: function (){
+                     this.echo(testAdi());
+                 },
+                 del: function(){
+                     let term=this;
+                     return new Promise(function(resolve) {
+                         setTimeout(function() {
+                             term.echo("del");
+                             resolve();
+                         },1000);
+                     });
+                 }
+             },"terminal.php"], {
+                 login: true,
+                 greetings: "Wake up, Neo...",
+                 prompt: function(callback) {
+                     if (this.get_token()) {
+                         callback(this.login_name() + '@crypto$ ');
+                     } else {
+                         callback('guest@crypto$ ');
+                     }
+                 }
+             });
+         });
+     </script>
+ </head>
+ <body></body>
+</html>

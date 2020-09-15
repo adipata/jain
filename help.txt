@@ -1,0 +1,19 @@
+* load : Load an external key
+load [name] [algorithm] [type] [data]
+- name : unique key name to identify the key
+- algorithm : rsa,aes
+- type : pub,priv,secret
+- data : HEX ASCII representation of the key
+
+* list : List all saved keys
+
+* gen : Generate a new key
+gen [name] [algorithm] [size]
+- name : key name
+- algorithm : aes,rsa
+- size : key size in bits; 128,256 for AES; 1024,2048 for RSA
+
+* get : Print key details
+get [name]
+- name : key name
+

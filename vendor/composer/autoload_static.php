@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInitcf555bb985d0a607c55108e77e949b65
 {
     public static $prefixLengthsPsr4 = array (
+        'd' => 
+        array (
+            'dekor\\' => 6,
+        ),
         'S' => 
         array (
             'Sop\\ASN1\\' => 9,
@@ -14,9 +18,23 @@ class ComposerStaticInitcf555bb985d0a607c55108e77e949b65
     );
 
     public static $prefixDirsPsr4 = array (
+        'dekor\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dekor/php-array-table/src',
+        ),
         'Sop\\ASN1\\' => 
         array (
             0 => __DIR__ . '/..' . '/sop/asn1/lib/ASN1',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'J' => 
+        array (
+            'JsonRPC' => 
+            array (
+                0 => __DIR__ . '/..' . '/fguillot/json-rpc/src',
+            ),
         ),
     );
 
@@ -25,6 +43,7 @@ class ComposerStaticInitcf555bb985d0a607c55108e77e949b65
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitcf555bb985d0a607c55108e77e949b65::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitcf555bb985d0a607c55108e77e949b65::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitcf555bb985d0a607c55108e77e949b65::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }
