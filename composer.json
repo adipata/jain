@@ -1,0 +1,6 @@
+{
+    "require": {
+        "mathieuviossat/arraytotexttable": "^1.0",
+        "dekor/php-array-table": "^1.0"
+    }
+}

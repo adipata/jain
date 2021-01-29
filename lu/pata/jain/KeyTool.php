@@ -16,6 +16,10 @@ class KeyTool
                 if(strlen($kdata)!=16 && strlen($kdata)!=32) throw new Exception("Incorrect AES key size ".strlen($kdata)." byte.");
                 if($type!="secret") throw new Exception("Please provide 'secret' as type.");
                 return array("bits"=>strlen($kdata)*8);
+            case "3des":
+                if(strlen($kdata)!=24) throw new Exception("Incorrect 3DES key size ".strlen($kdata)." byte.");
+                if($type!="secret") throw new Exception("Please provide 'secret' as type.");
+                return array("bits"=>strlen($kdata)*8);
             default:
                 throw new Exception("Unknown algorithm '$alg'.");
         }
@@ -35,6 +39,7 @@ class KeyTool
     public function getKeyDetails($key){
         switch($key["alg"]){
             case "aes":
+            case "3des":
                 return $this->getKeyCommonDetails($key);
             case "rsa":
                 return $this->getKeyCommonDetails($key)."\n".$this->getRSADetails($key);
@@ -76,9 +81,16 @@ class KeyTool
                 }
             case "aes":
                 return bin2hex($this->decryptAES($key["data"],$data,$opt,$iv,$pad));
+            case "3des":
+                return bin2hex($this->decrypt3DES($key["data"],$data,$opt,$iv,$pad));
             default:
                 throw new Exception("Unknown decryption algorithm '".$key["alg"]."'.");
         }
+    }
+
+    public function getMethods(){
+        $ciphers = openssl_get_cipher_methods();
+        return json_encode($ciphers, JSON_PRETTY_PRINT);
     }
 
     /** private zone -------------------------------------------------------------- **/
@@ -94,6 +106,35 @@ class KeyTool
         $enc=openssl_encrypt($data,$method,$kdata, OPENSSL_RAW_DATA,$iv);
         if($enc){
             return $enc;
+        } else {
+            throw new Exception(openssl_error_string());
+        }
+    }
+
+    private function decrypt3DES($kdata, $data,$opt,$iv,$pad){
+        if($opt!="cbc" && $opt!="") throw new Exception("Please provide 'cbc' or nothing as option.");
+        $size=strlen($kdata)*8;
+        $iv=hex2bin($iv);
+
+        switch($size){
+            case 192:
+                $method="des-ede3";
+                break;
+            default:
+                throw new Exception("Unsupported key size: $size.");
+        }
+
+        if($opt!="") $method=$method.'-'.$opt;
+
+        $ivlen = openssl_cipher_iv_length($method);
+        if(strlen($iv)!=$ivlen) throw new Exception("Incorrect IV. Needs to have a length of $ivlen bytes.");
+
+        $options=OPENSSL_RAW_DATA;
+        if($pad==="nopad") $options=$options|OPENSSL_ZERO_PADDING;
+
+        $dec=openssl_decrypt($data,$method,$kdata, $options,$iv);
+        if($dec){
+            return $dec;
         } else {
             throw new Exception(openssl_error_string());
         }
@@ -135,8 +176,11 @@ class KeyTool
     }
 
     private function decryptRSAPublic($key,$data,$pad){
+        //echo "decrypt rsa public";
         if($pad==="nopad")
             $pad=OPENSSL_NO_PADDING;
+        else if ($pad=="oaep")
+            $pad= OPENSSL_PKCS1_OAEP_PADDING;
         else
             $pad=OPENSSL_PKCS1_PADDING;
         if (openssl_public_decrypt($data, $decrypted, $key,$pad)){
@@ -149,6 +193,8 @@ class KeyTool
     private function decryptRSAPrivate($key,$data,$pad){
         if($pad==="nopad")
             $pad=OPENSSL_NO_PADDING;
+        else if ($pad=="oaep")
+            $pad= OPENSSL_PKCS1_OAEP_PADDING;
         else
             $pad=OPENSSL_PKCS1_PADDING;
         if (openssl_private_decrypt($data, $decrypted, $key,$pad)){

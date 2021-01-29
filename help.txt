@@ -1,7 +1,9 @@
+Version 1.1
+
 * load : Load an external key
 load [name] [algorithm] [data] [type]
 - name : unique key name to identify the key
-- algorithm : rsa,aes
+- algorithm : rsa,aes,3des
 - data : HEX ASCII representation of the key
 - type : pub,priv,secret
 
@@ -29,12 +31,12 @@ enc [name] [data] [option] [iv]
 - iv : initialization vector in HEX ASCII
 
 * dec : Decrypt data
-enc [name] [data] [option] [iv] [pad]
+dec [name] [data] [option] [iv] [pad]
 - name : key name
-- data : data to encrypt in HEX ASCII
+- data : data to decrypt in HEX ASCII
 - option : cbc,ecb
 - iv : initialization vector in HEX ASCII
-- pad : pad,nopad
+- pad : pad,nopad,oaep(for asymmetric only)
 
 * b2h : Base64 to HEX ASCII
 b2h [data]
@@ -43,3 +45,5 @@ b2h [data]
 * h2b : HEX ASCII to Bas64
 b2h [data]
 - data : HEX ASCII input data
+
+* methods : Gets available cipher methods

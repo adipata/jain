@@ -91,6 +91,12 @@ $server->getProcedureHandler()
         $uid = $db->getUserIdByToken($token);
         return base64_encode(hex2bin($in));
     })
+    ->withCallback('methods', function($token){
+        $db = new Db();
+        $uid = $db->getUserIdByToken($token);
+        $ktool=new KeyTool();
+        return $ktool->getMethods();
+    })
 ;
 
 echo $server->execute();
