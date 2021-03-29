@@ -17,6 +17,7 @@ $server->getProcedureHandler()
     ->withCallback('load', function ($token,$name,$alg,$data,$type="secret") {
         $db = new Db();
         $uid = $db->getUserIdByToken($token);
+        //error_log("data: ".$data, 0);
         $bindata=hex2bin(str_replace("\n","",$data));
         if(!$bindata) throw new Exception("Invalid input data. Must be HEX ASCII.");
 

@@ -3,6 +3,7 @@
 
 namespace lu\pata\jain;
 
+use phpseclib\Crypt\RSA;
 
 use Exception;
 
@@ -307,4 +308,8 @@ class KeyTool
         return base64_decode($pem);
     }
 
+    public function test(){
+        $rsa = new RSA();
+
+    }
 }
