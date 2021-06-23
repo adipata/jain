@@ -51,6 +51,13 @@ class Db
         }
     }
 
+    public function addBuffer($content,$uid,$name){
+        $sql="insert into buffer (content,user_id,name) values ('$content',$uid,'$name')";
+        if(!$this->conn->query($sql)){
+            throw new Exception($this->conn->error);
+        }
+    }
+
     public function getTableKeys($uid){
         $result=$this->conn->query("select * from `keys` where user_id=$uid order by id asc");
         if($result){
