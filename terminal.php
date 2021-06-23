@@ -4,6 +4,7 @@ require_once 'common.php';
 use JsonRPC\Server;
 use lu\pata\jain\Db;
 use lu\pata\jain\KeyTool;
+use lu\pata\jain\Utils;
 
 $server = new Server();
 $server->getProcedureHandler()
@@ -97,6 +98,12 @@ $server->getProcedureHandler()
         $uid = $db->getUserIdByToken($token);
         $ktool=new KeyTool();
         return $ktool->getMethods();
+    })
+    ->withCallback('uuid', function ($token,$count) {
+        $utils=new Utils();
+        $db = new Db();
+        $uid = $db->getUserIdByToken($token);
+        return $utils->guidv4();
     })
 ;
 
