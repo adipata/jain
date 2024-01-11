@@ -47,3 +47,22 @@ b2h [data]
 - data : HEX ASCII input data
 
 * methods : Gets available cipher methods
+
+* uuid : Generate UUID v4
+uuid [count] [format]
+- count : How many UUIDs to generate
+- format : Specify 'h' if the desired output is as HEX. Ex: 0x8380622b8ebf4868a7f23fe911a6d24d
+
+BUFFER DATA
+==========
+
+* sf : Select a file to upload into buffer
+
+* bu : Upload the selected file into buffer
+
+* bl : List the content of the buffer
+
+* bg : Get the content of a buffer item
+bg [id] [format]
+- id : id of the buffer item
+- format : h-HEX b-Base64 (default is HEX)

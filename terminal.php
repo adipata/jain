@@ -4,6 +4,7 @@ require_once 'common.php';
 use JsonRPC\Server;
 use lu\pata\jain\Db;
 use lu\pata\jain\KeyTool;
+use lu\pata\jain\BufferTool;
 use lu\pata\jain\Utils;
 
 $server = new Server();
@@ -99,11 +100,25 @@ $server->getProcedureHandler()
         $ktool=new KeyTool();
         return $ktool->getMethods();
     })
-    ->withCallback('uuid', function ($token,$count) {
+    ->withCallback('uuid', function ($token,$count=1,$type="n") {
         $utils=new Utils();
         $db = new Db();
         $uid = $db->getUserIdByToken($token);
-        return $utils->guidv4();
+        $uuid="";
+        for($i=0;$i<$count;$i++) $uuid.=$utils->guidv4($type)."\r\n";
+        return $uuid;
+    })
+    ->withCallback('bl', function ($token) {
+        $db = new Db();
+        $uid = $db->getUserIdByToken($token);
+        return $db->getBuffer($uid);
+    })
+    ->withCallback('bg', function ($token,$id,$format="h") {
+        $db = new Db();
+        $uid = $db->getUserIdByToken($token);
+        $buff=$db->getBufferItem($uid,$id);
+        $bTool=new BufferTool();
+        return $bTool->getBufferDetails($buff,$format);
     })
 ;
 

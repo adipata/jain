@@ -71,6 +71,19 @@ class Db
         }
     }
 
+    public function getBuffer($uid){
+        $result=$this->conn->query("select * from `buffer` where user_id=$uid order by id asc");
+        if($result){
+            $data=array();
+            while($row = $result->fetch_assoc()){
+                $data[]=array("Id"=>$row["id"],"Name"=>$row["name"], "Data size"=>strlen($row["content"]));
+            }
+            return (new ArrayToTextTable($data))->render()."\r\n";
+        } else {
+            throw new Exception($this->conn->error);
+        }
+    }
+
     public function getKey($uid,$name){
         $result=$this->conn->query("select * from `keys` where name='$name' and user_id=$uid");
         if($result){
@@ -79,6 +92,20 @@ class Db
                 return $row;
             } else {
                 throw new Exception("Key '$name' not found.");
+            }
+        } else {
+            throw new Exception($this->conn->error);
+        }
+    }
+
+    public function getBufferItem($uid,$id){
+        $result=$this->conn->query("select * from `buffer` where id=$id and user_id=$uid");
+        if($result){
+            $row=$result->fetch_assoc();
+            if($row){
+                return $row;
+            } else {
+                throw new Exception("Buffer '$id' not found.\r\n");
             }
         } else {
             throw new Exception($this->conn->error);

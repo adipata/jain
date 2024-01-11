@@ -4,7 +4,7 @@
 namespace lu\pata\jain;
 
 class Utils{
-    public function guidv4($data = null) {
+    public function guidv4($type,$data = null) {
         // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
         $data = $data ?? random_bytes(16);
         assert(strlen($data) == 16);
@@ -14,8 +14,11 @@ class Utils{
         // Set bits 6-7 to 10
         $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
 
+        $f='%s%s-%s-%s-%s-%s%s%s';
+        if($type=="h") $f='0x%s%s%s%s%s%s%s%s';
+
         // Output the 36 character UUID.
-        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+        return vsprintf($f, str_split(bin2hex($data), 4));
     }
 
 }
